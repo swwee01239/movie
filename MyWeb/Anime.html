@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOR THE KING电影网</title>
+<link rel="stylesheet"
+	href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+<script type="text/javascript" src="D:\study\MyWeb\source\AnimeList2.js"></script>
+
+<style type="text/css">
+[v-cloak] {
+    display: none !important;
+}
+
+.list li {
+	display: inline-block;
+	padding: 10px;
+}
+
+.list a {
+	color: white;
+}
+
+.title {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.movie-ul li {
+	list-style-type: none;
+	padding: 10px;
+	color: white;
+}
+
+#list-ul li a {
+	color: black;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.movie-box {
+	padding: 5px;
+	width: 200px;
+	height:200px;
+	display: inline-block;
+}
+
+@media only screen and (max-width: 600px) {
+	.movie-box {
+		width: 100px;
+		height:100px;
+	}
+}
+
+#new-movie {
+	width: 20%;
+	float: left;
+}
+
+@media only screen and (max-width: 600px) {
+	#new-movie {
+		display: none;
+	}
+}
+
+#movie p {
+	text-align: center;
+	color: white;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+#movie {
+	width: 80%;
+	float: left;
+}
+
+@media only screen and (max-width: 600px) {
+	#movie {
+		width: 100%;
+	}
+}
+</style>
+
+</head>
+<body background="img/backgroup3.jpg">
+
+	<!-- LOGO -->
+	<div class="jumbotron text-center" style="margin-bottom: 0">
+		<a href="main.html"><img src="img/logo.png"
+			style="width: 50px; height: 50px;"></a>
+		<h4>FOR THE KING</h4>
+	</div>
+	<!-- 导航栏 -->
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark container">
+		<a class="navbar-brand" href="#"> </a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="oumei.html">欧美电影</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="Anime.html">动漫电影</a></li>
+				<li class="nav-item"><a class="nav-link" href="China.html">国产电影</a></li>
+				<li class="nav-item"><a class="nav-link" href="Japan.html">日韩电影</a></li>
+				<li class="nav-item"><a class="nav-link" href="search.html">电影搜索</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<!-- 影片 -->
+	<div id="movie-group" class="container" v-cloak>
+
+		<!-- 电影列表 -->
+		<div id="movie" class=" bg-dark" align="center">
+			<!-- 电影框架 -->
+			<div v-for="list in userList" class="movie-box">
+				<!-- 海报 -->
+				<div>
+					<a v-bind:href="list.url"><img
+						style="height:100%; width: 100%;" alt="" v-bind:src="list.image">
+					</a>
+				</div>
+				<!-- 片名 -->
+				<div>
+					<p>{{list.moviename}}</p>
+				</div>
+			</div>
+
+			<!-- 分页 
+			<div id="Pagetotal">
+				<ul class="pagination justify-content-center">
+					<li class="page-item" @click="prePage()"><a class="page-link">上一页</a></li>
+					<li v-for="index in pageTotal" @click="curPage(index)"
+						:class="pageNo==index ? 'page-item active':''"><a
+						class="page-link">{{index}}</a></li>
+					<li class="page-item" @click="nextPage()"><a class="page-link">下一页</a></li>
+				</ul>
+			</div>-->
+		</div>
+
+	</div>
+
+	<!-- 最新电影表 -->
+	<div id="new-movie" class="bg-dark" v-cloak>
+		<ul class="list-group" id="list-ul">
+			<li class="list-group-item active bg-info"><a>最新电影</a></li>
+			<li class="list-group-item" v-for="(NewList,index) in newlist"
+				v-if="index<title"><a v-bind:href="NewList.url">{{NewList.moviename}}</a></li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		new Vue(
+				{
+					el : '#new-movie',
+					data : {
+						newlist : [],
+						title:18
+					},
+					methods : {
+
+						newLists : function() {
+						var that = this;
+						$
+								.ajax(
+										{
+											// 数据请求
+											type : "GET",
+											url : "http://127.0.0.1/AnimeList.php",
+										}).then(res=> {
+									var obj = eval('(' + res + ')');
+									// 数据转换
+									that.newlist = obj;
+									//that.newlist = obj.user; 
+									//console.log(obj.user);
+								}).fail(function() {
+									console.log('失败');
+								})
+						}
+					},
+
+					mounted : function() {
+						this.newLists();
+					},
+
+				})
+	</script>
+</body>
+</html>

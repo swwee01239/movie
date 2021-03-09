@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOR THE KING电影网</title>
+<link rel="stylesheet"
+	href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+<style type="text/css">
+[v-cloak] {
+    display: none !important;
+}
+
+.carousel-inner img {
+	width: 100%;
+	height: auto;
+}
+
+#heard a {
+	color: white;
+	font-size: 20px
+}
+
+#heard p {
+	text-align: center;
+	color: white;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 20px
+}
+
+#movie-warning {
+	background-color: white;
+}
+
+#movie-warning p {
+	text-align: center;
+	font-size: 18px;
+}
+
+#movie-oumei2 {
+	width: 150px;
+	display: inline-block;
+	padding: 5px
+}
+
+@media only screen and (max-width: 600px) {
+	#movie-oumei2 {
+		width: 100px
+	}
+}
+
+#movie-anime2 {
+	width: 150px;
+	display: inline-block;
+	padding: 5px
+}
+
+@media only screen and (max-width: 600px) {
+	#movie-anime2 {
+		width: 100px
+	}
+}
+
+#movie-japan2 {
+	width: 150px;
+	display: inline-block;
+	padding: 5px
+}
+
+@media only screen and (max-width: 600px) {
+	#movie-japan2 {
+		width: 100px
+	}
+}
+
+#movie-china2 {
+	width: 150px;
+	display: inline-block;
+	padding: 5px
+}
+
+@media only screen and (max-width: 600px) {
+	#movie-china2 {
+		width: 100px
+	}
+}
+</style>
+
+
+</head>
+<body background="img/backgroup3.jpg">
+
+	<!-- LOGO -->
+	<div class="jumbotron text-center" style="margin-bottom: 0">
+		<a href="main.html"><img src="img/logo.png"
+			style="width: 50px; height: 50px;"></a>
+		<h4>FOR THE KING</h4>
+	</div>
+	<!-- 导航栏 -->
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark container">
+		<a class="navbar-brand" href="#"> </a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="oumei.html">欧美电影</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="Anime.html">动漫电影</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="China.html">国产电影</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="Japan.html">日韩电影</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="search.html">电影搜索</a>
+				</li>
+			</ul>
+
+		</div>
+	</nav>
+
+	<!-- 轮播 -->
+	<div id="demo" class="carousel slide container" data-ride="carousel">
+		<!-- 指示符 -->
+		<ul class="carousel-indicators">
+			<li data-target="#demo" data-slide-to="0" class="active"></li>
+			<li data-target="#demo" data-slide-to="1"></li>
+			<li data-target="#demo" data-slide-to="2"></li>
+		</ul>
+
+		<!-- 轮播图片 -->
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<a href="Japan-more.html?title=11"> <img src="img/mian.jpg">
+				</a>
+			</div>
+			<div class="carousel-item">
+				<a href="Anime-more.html?title=13"> <img src="img/mian2.jpg">
+				</a>
+			</div>
+			<div class="carousel-item">
+				<a href="oumei-more.html?title=13"> <img src="img/three.jpg">
+				</a>
+			</div>
+		</div>
+
+		<!-- 左右切换按钮 -->
+		<a class="carousel-control-prev" href="#demo" data-slide="prev"> <span
+			class="carousel-control-prev-icon"></span>
+		</a> <a class="carousel-control-next" href="#demo" data-slide="next">
+			<span class="carousel-control-next-icon"></span>
+		</a>
+	</div>
+	<!-- 欧美分区 -->
+	<div id="heard" class="container bg-dark">
+		<!-- 头部 -->
+		<div style="overflow: hidden; padding: 30px">
+			<div style="float: left; margin-left: 20px">
+				<a>欧美</a>
+			</div>
+			<div style="float: right; margin-right: 20px">
+				<a href="oumei.html">更多</a>
+			</div>
+		</div>
+		<!-- 身体 -->
+		<div id="movie-oumei" align="center" v-cloak>
+			<div id="movie-oumei2" v-for="list in userList" v-if="list.id<7">
+				<div>
+					<a v-bind:href="list.url"><img
+						style="height: auto; width: 100%;" alt="" v-bind:src="list.image">
+					</a>
+				</div>
+
+				<div>
+					<p>{{list.moviename}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el : '#movie-oumei',
+			data : {
+				userList : [],
+			},
+			methods : {
+				getLists : function() {
+					var that = this;
+					$.ajax({
+						// 数据请求
+						type : "GET",
+						url : `http://127.0.0.1/OumeiList.php`,
+						data : {},
+						datatype : "json"
+					}).then(function(res) {
+						// 数据转换
+						var obj = eval('(' + res + ')');
+						that.userList = obj;
+						console.log(that.userList);
+					}).fail(function() {
+						console.log('失败');
+					})
+				}
+			},
+			mounted : function() {
+				this.getLists();
+			},
+
+		})
+	</script>
+	<!-- 日韩分区 -->
+	<div id="heard" class="container bg-dark">
+		<!-- 头部 -->
+		<div style="overflow: hidden; padding: 30px">
+			<div style="float: left; margin-left: 20px">
+				<a>日韩</a>
+			</div>
+			<div style="float: right; margin-right: 20px">
+				<a href="Japan.html">更多</a>
+			</div>
+		</div>
+		<!-- 身体 -->
+		<div id="movie-japan" align="center" v-cloak>
+			<div v-for="list in userList" v-if="list.id<7	" id="movie-japan2">
+				<div>
+					<a v-bind:href="list.url"><img
+						style="height: auto; width: 100%;" alt="" v-bind:src="list.image">
+					</a>
+				</div>
+
+				<div>
+					<p>{{list.moviename}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el : '#movie-japan',
+			data : {
+				userList : [],
+			},
+			methods : {
+				getLists : function() {
+					var that = this;
+
+					$.ajax({
+						// 数据请求
+						type : "GET",
+						url : `http://127.0.0.1/JapanList.php`,
+						data : {},
+						datatype : "json"
+					}).then(function(res) {
+
+						// 数据转换
+						var obj = eval('(' + res + ')');
+						that.userList = obj;
+						console.log(that.userList);
+					}).fail(function() {
+						console.log('失败');
+					})
+				}
+			},
+			mounted : function() {
+				this.getLists();
+			},
+
+		})
+	</script>
+</body>
+<!--国产分区 -->
+<div id="heard" class="container bg-dark">
+	<!-- 头部 -->
+	<div style="overflow: hidden; padding: 30px">
+		<div style="float: left; margin-left: 20px">
+			<a>国产</a>
+		</div>
+		<div style="float: right; margin-right: 20px">
+			<a href="China.html">更多</a>
+		</div>
+	</div>
+	<!-- 身体 -->
+	<div id="movie-china" align="center" v-cloak>
+		<div v-for="list in userList" v-if="list.id<7	" id="movie-china2">
+			<div>
+				<a v-bind:href="list.url"><img
+					style="height: auto; width: 100%;" alt="" v-bind:src="list.image">
+				</a>
+			</div>
+
+			<div>
+				<p>{{list.moviename}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	new Vue({
+		el : '#movie-china',
+		data : {
+			userList : [],
+		},
+		methods : {
+			getLists : function() {
+				var that = this;
+
+				$.ajax({
+					// 数据请求
+					type : "GET",
+					url : `http://127.0.0.1/chinalist.php`,
+					data : {},
+					datatype : "json"
+				}).then(function(res) {
+
+					// 数据转换
+					var obj = eval('(' + res + ')');
+					that.userList = obj;
+					console.log(that.userList);
+				}).fail(function() {
+					console.log('失败');
+				})
+			}
+		},
+		mounted : function() {
+			this.getLists();
+		},
+
+	})
+</script>
+</body>
+<!--动漫分区 -->
+<div id="heard" class="container bg-dark">
+	<!-- 头部 -->
+	<div style="overflow: hidden; padding: 30px">
+		<div style="float: left; margin-left: 20px">
+			<a>动漫</a>
+		</div>
+		<div style="float: right; margin-right: 20px">
+			<a href="Anime.html">更多</a>
+		</div>
+	</div>
+	<!-- 身体 -->
+	<div id="movie-anime" align="center" v-cloak>
+		<div v-for="list in userList" v-if="list.id<7" id="movie-anime2">
+			<div>
+				<a v-bind:href="list.url"><img
+					style="height: auto; width: 100%;" alt="" v-bind:src="list.image">
+				</a>
+			</div>
+
+			<div>
+				<p>{{list.moviename}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	new Vue({
+		el : '#movie-anime',
+		data : {
+			userList : [],
+		},
+		methods : {
+			getLists : function() {
+				var that = this;
+
+				$.ajax({
+					// 数据请求
+					type : "GET",
+					url : `http://127.0.0.1/AnimeList.php`,
+					data : {},
+					datatype : "json"
+				}).then(function(res) {
+
+					// 数据转换
+					var obj = eval('(' + res + ')');
+					that.userList = obj;
+					console.log(that.userList);
+				}).fail(function() {
+					console.log('失败');
+				})
+			}
+		},
+		mounted : function() {
+			this.getLists();
+		},
+
+	})
+</script>
+<div id="movie-warning" class="container">
+	<p>
+		本网站提供的资源均系收集于各大视频网站，本网站只提供web页面服务，<br />并不提供影片资源存储，也不参与录制、上传若本站收录的节目无意侵犯了贵司版权，请给995631732@qq.com邮箱地址来信，<br />我们会及时处理和回复，谢谢
+	</p>
+</div>
+</body>
+</html>

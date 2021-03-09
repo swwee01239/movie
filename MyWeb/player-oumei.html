@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">	
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOR THE KING电影网</title>
+<link rel="stylesheet"
+	href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+
+
+<style type="text/css">
+#movie h3{
+color: white;
+}
+video {
+    width: 100%;
+    height: auto;
+}
+</style>
+
+</head>
+<body background="img/backgroup3.jpg">
+	
+		<!-- LOGO -->
+		<div class="jumbotron text-center" style="margin-bottom: 0">
+			<a href="main.html"><img src="img/logo.png"
+				style="width: 50px; height: 50px;"></a>
+			<h4>FOR THE KING</h4>
+		</div>
+		<!-- 导航栏 -->
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark container">
+			<a class="navbar-brand" href="#"> </a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" href="oumei.html">欧美电影</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="Anime.html">动漫电影</a></li>
+					<li class="nav-item"><a class="nav-link" href="China.html">国产电影</a></li>
+					<li class="nav-item"><a class="nav-link" href="Japan.html">日韩电影</a></li>
+					<li class="nav-item"><a class="nav-link" href="search.html">电影搜索</a></li>
+				</ul>
+			</div>
+		</nav>
+<div id="movie" class="container bg-dark" align="center">
+<h3>温情提示:如果视频出现卡顿请稍作等待</h3>
+<div v-for="list in userList" v-if="list.id==title">
+<video preload="metadata" controls="controls" v-bind:src="list.moviesrc"></video>
+</div>
+</div>
+<script type="text/javascript">
+window.onload = function() {
+	new Vue({
+		el : '#movie',
+		data : {
+			userList : [],
+			title:2
+		},
+		methods : {
+			getLists : function() {
+				var that = this;
+					var url = window.location.href; // 获取当前url
+
+					var dz_url = url.split('#')[0]; // 获取#/之前的字符串
+
+					var cs = dz_url.split('?')[1]; // 获取?之后的参数字符串
+
+					var cs_arr = cs.split('&'); // 参数字符串分割为数组
+
+					var cs = {};
+
+					for (var i = 0; i < cs_arr.length; i++) { // 遍历数组，拿到json对象
+
+						cs[cs_arr[i].split('=')[0]] = cs_arr[i].split('=')[1]
+					}
+					
+					that.title = cs.title;
+				$.ajax({
+					// 数据请求
+					type : "GET",
+					url : `http://127.0.0.1/OumeiListmore.php?movieid=${that.title}`,
+					data : {},
+					datatype : "json"
+				}).then(function(res) {
+					// 数据转换
+					var obj = eval('(' + res + ')');
+					that.userList = obj;
+					
+				}).fail(function() {
+					console.log('失败');
+				})
+			}
+		},
+
+		mounted : function() {
+			this.getLists();
+		},
+		getQueryVariable : function(variable) {
+			var query = window.location.search.substring(1);
+			var vars = query.split("&");
+			for (var i = 0; i < vars.length; i++) {
+				var pair = vars[i].split("=");
+				if (pair[0] == variable) {
+					return pair[1];
+				}
+			}
+			return (false);
+		}
+	})
+
+}
+</script>
+</body>
+</html>
+<!-- <video preload="metadata" controls="controls" src="https://www.shangmeng-movie.club/movie/%E8%B6%85%E4%BD%93.mp4" width="320" height="240"></video>
+ -->
